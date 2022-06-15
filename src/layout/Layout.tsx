@@ -15,6 +15,10 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps): JSX.Element => {
-  return <StyledLayout>{children}</StyledLayout>
+  return (
+    <StyledLayout>
+      <div className="main-container"> {children}</div>
+    </StyledLayout>
+  )
 }
 export default Layout

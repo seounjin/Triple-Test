@@ -1,9 +1,14 @@
 import Layout from './layout/Layout'
+import ContentLogo from './components/ContentLogo/ContentLogo'
+import MetricItemContainer from './container/MetricItemContainer'
+import AwardContainer from './container/AwardContainer'
 
 function App() {
   return (
     <Layout>
-      <div className="main-container">트리플 과제</div>
+      <ContentLogo />
+      <MetricItemContainer />
+      <AwardContainer />
     </Layout>
   )
 }
