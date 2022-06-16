@@ -1,10 +1,17 @@
 import styled from 'styled-components'
 
-interface StyledAward {
+interface Props {
+  imgUrl: string
+  title: string
+  content: string
+}
+
+interface StyledProps {
   imgUrl: string
 }
 
-const StyledAward = styled.div<StyledAward>`
+const StyledAward = styled.div<StyledProps>`
+  position: relative;
   display: inline-block;
   height: 54px;
   padding: 5px 0px 5px 62px;
@@ -20,13 +27,7 @@ const StyledAward = styled.div<StyledAward>`
   line-height: 22px;
 `
 
-interface AwardProps {
-  imgUrl: string
-  title: string
-  content: string
-}
-
-const Award = ({ imgUrl, title, content }: AwardProps): JSX.Element => {
+const Award = ({ imgUrl, title, content }: Props): JSX.Element => {
   return (
     <StyledAward imgUrl={imgUrl}>
       {title}

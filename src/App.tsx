@@ -1,14 +1,46 @@
+import { useState, useRef } from 'react'
+import styled from 'styled-components'
+
 import Layout from './layout/Layout'
 import ContentLogo from './components/ContentLogo/ContentLogo'
 import MetricItemContainer from './container/MetricItemContainer'
 import AwardContainer from './container/AwardContainer'
+import useInterval from './hooks/useInterval'
 
+const MainContainer = styled.section`
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+`
 function App() {
+  const [FadeInState, setFadeInState] = useState<boolean[]>([
+    false,
+    false,
+    false,
+  ])
+  const [isRunning, setIsRunning] = useState<boolean>(true)
+  const Count = useRef<number>(-1)
+
+  const playCount = () => {
+    if (Count.current >= 2) {
+      setIsRunning(false)
+      return
+    }
+    Count.current += 1
+    const tempState = [...FadeInState]
+    tempState[Count.current] = true
+    setFadeInState(tempState)
+  }
+
+  useInterval(playCount, isRunning ? 100 : null)
+
   return (
     <Layout>
-      <ContentLogo />
-      <MetricItemContainer />
-      <AwardContainer />
+      <MainContainer>
+        <ContentLogo fadeInState={FadeInState[0]} />
+        <MetricItemContainer fadeInState={FadeInState[1]} />
+        <AwardContainer fadeInState={FadeInState[2]} />
+      </MainContainer>
     </Layout>
   )
 }

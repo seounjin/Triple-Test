@@ -1,12 +1,7 @@
+import React from 'react'
 import styled from 'styled-components'
 
 import Award from '../components/Award/Award'
-
-interface AwardItem {
-  imgurl: string
-  title: string
-  content: string
-}
 
 const AWARD_ITEM: AwardItem[] = [
   {
@@ -21,13 +16,34 @@ const AWARD_ITEM: AwardItem[] = [
   },
 ]
 
-const Container = styled.div`
+interface AwardItem {
+  imgurl: string
+  title: string
+  content: string
+}
+
+interface Props {
+  fadeInState: boolean
+}
+
+interface StyledProps {
+  fadeInState: boolean
+}
+
+const Container = styled.div<StyledProps>`
+  position: relative;
+
   margin: 50px 0px 140px 623px;
   white-space: nowrap;
+
+  top: ${(props) => (props.fadeInState ? '0px;' : '30px;')}
+  opacity: ${(props) => (props.fadeInState ? 1 : 0)};
+  transition: all 700ms ease-in;
 `
-const AwardContainer = (): JSX.Element => {
+
+const AwardContainer = ({ fadeInState }: Props): JSX.Element => {
   return (
-    <Container>
+    <Container fadeInState={fadeInState}>
       {AWARD_ITEM.map((data: AwardItem, index: number) => (
         <Award
           key={'award' + index.toString()}
@@ -40,4 +56,4 @@ const AwardContainer = (): JSX.Element => {
   )
 }
 
-export default AwardContainer
+export default React.memo(AwardContainer)

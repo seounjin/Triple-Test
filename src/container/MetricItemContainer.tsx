@@ -1,27 +1,42 @@
+import React from 'react'
 import styled from 'styled-components'
 
 import MetricItem from '../components/MetricItem/MetricItem'
 
-interface MetricItem {
-  count: string
-  number: string
-  travel: string
-}
-
-const METRIC_ITEM: MetricItem[] = [
+const METRIC_ITEM: Mitem[] = [
   { count: '700', number: '만 명의', travel: '여행자' },
   { count: '100', number: '만 개의', travel: '여행 리뷰' },
   { count: '400', number: '만 개의', travel: '여행 일정' },
 ]
 
-const Container = styled.div`
+interface Mitem {
+  count: string
+  number: string
+  travel: string
+}
+
+interface Props {
+  fadeInState: boolean
+}
+
+interface StyledProps {
+  fadeInState: boolean
+}
+
+const Container = styled.div<StyledProps>`
+  position: relative;
   margin-left: 623px;
   padding-top: 150px;
+
+  top: ${(props) => (props.fadeInState ? '0px;' : '30px;')}
+  opacity: ${(props) => (props.fadeInState ? 1 : 0)};
+  transition: all 700ms ease-in;
 `
-const MetricItemContainer = (): JSX.Element => {
+
+const MetricItemContainer = ({ fadeInState }: Props): JSX.Element => {
   return (
-    <Container>
-      {METRIC_ITEM.map((data: MetricItem, index: number) => (
+    <Container fadeInState={fadeInState}>
+      {METRIC_ITEM.map((data: Mitem, index: number) => (
         <MetricItem
           key={'metricitem' + index.toString()}
           count={data.count}
@@ -33,4 +48,4 @@ const MetricItemContainer = (): JSX.Element => {
   )
 }
 
-export default MetricItemContainer
+export default React.memo(MetricItemContainer)

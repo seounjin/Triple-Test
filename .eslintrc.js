@@ -17,5 +17,6 @@ module.exports = {
   rules: {
     // 개별 규칙
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
+    'no-console': 'off',
   },
 }
