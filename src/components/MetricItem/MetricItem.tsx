@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 interface Props {
-  count: string
+  count: number
   number: string
   travel: string
 }

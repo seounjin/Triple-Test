@@ -4,7 +4,7 @@ type TimerHandler = () => void
 
 type Delay = number | null
 
-const useInterval = (callback: TimerHandler, delay: Delay) => {
+const useTimeout = (callback: TimerHandler, delay: Delay) => {
   const savedCallback = useRef<TimerHandler>()
 
   useEffect(() => {
@@ -12,18 +12,23 @@ const useInterval = (callback: TimerHandler, delay: Delay) => {
   }, [callback])
 
   useEffect(() => {
+    let timer: NodeJS.Timeout
+
     const executeCallback = () => {
       savedCallback.current!()
+
+      if (delay !== null) {
+        timer = setTimeout(executeCallback, delay)
+      }
     }
 
     if (delay !== null) {
-      const interval = setInterval(executeCallback, delay)
-
+      timer = setTimeout(executeCallback, delay)
       return () => {
-        clearInterval(interval)
+        clearTimeout(timer)
       }
     }
   }, [delay])
 }
 
-export default useInterval
+export default useTimeout

@@ -5,7 +5,8 @@ import Layout from './layout/Layout'
 import ContentLogo from './components/ContentLogo/ContentLogo'
 import MetricItemContainer from './container/MetricItemContainer'
 import AwardContainer from './container/AwardContainer'
-import useInterval from './hooks/useInterval'
+// import useInterval from './hooks/useInterval'
+import useTimeout from './hooks/useTimeout'
 
 const MainContainer = styled.section`
   position: relative;
@@ -32,7 +33,7 @@ function App() {
     setFadeInState(tempState)
   }
 
-  useInterval(playCount, isRunning ? 100 : null)
+  useTimeout(playCount, isRunning ? 100 : null)
 
   return (
     <Layout>

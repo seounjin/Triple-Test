@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import MetricItem from '../components/MetricItem/MetricItem'
@@ -34,12 +34,18 @@ const Container = styled.div<StyledProps>`
 `
 
 const MetricItemContainer = ({ fadeInState }: Props): JSX.Element => {
+  const [Count, setCount] = useState<number>(0)
+
+  useEffect(() => {
+    setCount(Count + 1)
+  }, [])
+
   return (
     <Container fadeInState={fadeInState}>
       {METRIC_ITEM.map((data: Mitem, index: number) => (
         <MetricItem
           key={'metricitem' + index.toString()}
-          count={data.count}
+          count={Count}
           number={data.number}
           travel={data.travel}
         />
