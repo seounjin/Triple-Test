@@ -1,46 +1,70 @@
-# Getting Started with Create React App
+## 프로젝트 실행 방법
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+1. npm install
+2. npm start
 
-In the project directory, you can run:
+## 사용한 기술과 선택한 이유
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### TypeScript
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+타입을 지정함으로써 개발자가 어떤 타입인지 정확하게 알 수있으므로 개발함에 있어 편리하며 컴파일 단계에서 에러를 잡아낼 수 있어 사용하였습니다.
 
-### `npm test`
+### styled-components
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+컴포넌트 레벨로 추상화할 수 있으며 js로 css를 쉽게 다룰 수 있어 사용하였습니다.
 
-### `npm run build`
+## 영역별 등장 애니메이션 기능 구현
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 좌측 이미지, 지표 문구, 수상 내역 순으로 표시
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+처음에는 setInterval 함수를 사용하여 해당기능을 구현하였습니다.
 
-### `npm run eject`
+주어진 명세서는 애니메이션 사이 간격은 100ms이었고, 그렇기에 일정한 간격마다 fade in 애니메이션을 발생시키려고 하였습니다.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+하지만 setInterval 함수의 경우 즉시 실행될 수 없는 상황이라면, 실행 가능할 때까지 지연되어 시간을 보장할 수 없다는것을 알게 되었습니다.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+지연시간을 보장시켜줄 수있는방법은, 함수의 실행이 종료된 이후 다음 함수 호출의 계획을 세울 수 있는 setTimeout을 재귀 호출로 사용하는 방법이 있었고 이를 적용하여 구현하였습니다.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### 등장 애니메이션
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+opacity속성을 0 에서 1, top 속성을 30px 에서 0px 으로 변경되는 과정에서 css transition 속성을 사용하여 700ms 지연되는 효과를 넣었습니다.
 
-## Learn More
+## 숫자가 올라가는 애니메이션 기능 구현
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 처음 구현한 방식
+
+숫자를 증가시켜주는 setInterval 과
+
+숫자 증가 속도가 느려지는 효과를 적용하기 위한 숫자 inerval의 delay를 서서히 올려주는 setInterval 을 사용하였습니다.
+
+setTimeout을 사용하여 2초뒤 앞에서 설명한 2개의 interval을 멈추는 방식으로
+
+동시에 끝나는 기능을 구현하고자 하였습니다.
+
+### 문제점
+
+2초동안 지정된 숫자까지 증가시키는 과정에서 해당 숫자에 도달하지 않는 문제가 있었습니다.
+
+`duration / targetNumber`로 계산하여 Delay로 지정하면 해당 숫자까지 도달하였지만 숫자가 느려지는 효과는 적용할 수 없었습니다.
+
+여러개의 web api함수를 사용하게 되었고 코드가 복잡해지는 문제점이 있었습니다.
+
+### 최종 구현 방식
+
+setInterval을 사용하여 구현하였습니다.
+
+setInterval의 Delay 는 초당 60프레임으로 지정하였습니다.
+
+초당 60프레임은 대부분의 인간이 부드럽게 움직이는 것으로 인식하는 최소 프레임 속도이기 떄문입니다.
+
+easeOutQuad 함수를 사용하여 숫자 증가를 표현 하였습니다.
+
+easeOutQuad 함수는 목표에 숫자에 도달할 수록 증가율이 낮아집니다.
