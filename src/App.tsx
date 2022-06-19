@@ -5,7 +5,6 @@ import Layout from './layout/Layout'
 import ContentLogo from './components/ContentLogo/ContentLogo'
 import MetricItemContainer from './container/MetricItemContainer'
 import AwardContainer from './container/AwardContainer'
-// import useInterval from './hooks/useInterval'
 import useTimeout from './hooks/useTimeout'
 
 const MainContainer = styled.section`
@@ -22,7 +21,7 @@ function App() {
   const [isRunning, setIsRunning] = useState<boolean>(true)
   const Count = useRef<number>(-1)
 
-  const playCount = () => {
+  const playCount = (): void => {
     if (Count.current >= 2) {
       setIsRunning(false)
       return

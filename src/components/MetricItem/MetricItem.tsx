@@ -1,8 +1,11 @@
+import React from 'react'
 import styled from 'styled-components'
 
+import CountUp from '../CountUp/CountUp'
+
 interface Props {
-  count: number
-  number: string
+  number: number
+  million: string
   travel: string
 }
 
@@ -14,16 +17,16 @@ const StyledMetricItem = styled.div`
   color: rgb(58, 58, 58);
 `
 
-const MetricItem = ({ count, number, travel }: Props): JSX.Element => {
+const MetricItem = ({ number, million, travel }: Props): JSX.Element => {
   return (
     <StyledMetricItem>
       <strong>
-        <span>{count}</span>
-        {number}
+        <CountUp countTo={number} duration={2000} />
+        {million}
       </strong>
       {travel}
     </StyledMetricItem>
   )
 }
 
-export default MetricItem
+export default React.memo(MetricItem)

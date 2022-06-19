@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import MetricItem from '../components/MetricItem/MetricItem'
 
 const METRIC_ITEM: Mitem[] = [
-  { count: '700', number: '만 명의', travel: '여행자' },
-  { count: '100', number: '만 개의', travel: '여행 리뷰' },
-  { count: '400', number: '만 개의', travel: '여행 일정' },
+  { number: 700, million: '만 명의', travel: '여행자' },
+  { number: 100, million: '만 개의', travel: '여행 리뷰' },
+  { number: 400, million: '만 개의', travel: '여행 일정' },
 ]
 
 interface Mitem {
-  count: string
-  number: string
+  number: number
+  million: string
   travel: string
 }
 
@@ -34,20 +34,14 @@ const Container = styled.div<StyledProps>`
 `
 
 const MetricItemContainer = ({ fadeInState }: Props): JSX.Element => {
-  const [Count, setCount] = useState<number>(0)
-
-  useEffect(() => {
-    setCount(Count + 1)
-  }, [])
-
   return (
     <Container fadeInState={fadeInState}>
       {METRIC_ITEM.map((data: Mitem, index: number) => (
         <MetricItem
           key={'metricitem' + index.toString()}
-          count={Count}
           number={data.number}
           travel={data.travel}
+          million={data.million}
         />
       ))}
     </Container>

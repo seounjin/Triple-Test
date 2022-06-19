@@ -1,42 +1,37 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 
 import useInterval from '../../hooks/useInterval'
-import useTimeout from '../../hooks/useTimeout'
 
-// import styled from 'styled-components'
+// t는 0(애니메이션 시작)과 1(애니메이션 끝)의 경계에서 애니메이션의 절대 진행률을 나타냄
+const easeOutQuad = (t: number) => t * (2 - t)
+const frameDuration = 1000 / 60
 
-// interface Props {
-//   delay: number
-//   end?: string
-// }
+interface Props {
+  countTo: number
+  duration: number
+}
 
-// const StyledCountUp = styled.div``
-
-const CountUp = (): JSX.Element => {
-  const [Count, setCount] = useState(0)
-  const Delay = useRef(10)
+const CountUp = ({ countTo, duration }: Props): JSX.Element => {
+  const [count, setCount] = useState<number>(100)
   const [isRunning, setIsRunning] = useState<boolean>(true)
-  // const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const [frame, setFrame] = useState<number>(0)
 
-  const playCount = () => {
-    setCount((Count) => Count + 1)
+  const playFlame = (): void => {
+    // 애니메이션을 완료하는 데 필요한 프레임 수를 계산
+    const totalFrames = Math.round(duration / frameDuration)
+    const progress = easeOutQuad(frame / totalFrames)
+
+    setFrame(frame + 1)
+    setCount(countTo * progress)
+
+    if (frame === totalFrames) {
+      setIsRunning(false)
+    }
   }
 
-  const playDelay = () => {
-    Delay.current *= 10
-  }
+  useInterval(playFlame, isRunning ? frameDuration : null)
 
-  useInterval(playDelay, isRunning ? 1000 : null)
-
-  useInterval(playCount, isRunning ? Delay.current : null)
-
-  useTimeout(() => setIsRunning(false), isRunning ? 2000 : null)
-
-  return (
-    <div>
-      <span>{Count}</span>
-    </div>
-  )
+  return <span>{Math.floor(count)}</span>
 }
 
 export default CountUp

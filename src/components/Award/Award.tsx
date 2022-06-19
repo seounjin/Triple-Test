@@ -1,3 +1,4 @@
+import React from 'react'
 import styled from 'styled-components'
 
 interface Props {
@@ -37,4 +38,4 @@ const Award = ({ imgUrl, title, content }: Props): JSX.Element => {
   )
 }
 
-export default Award
+export default React.memo(Award)
